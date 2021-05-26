@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.supero.tasklist.models.ErrorResponse;
 import com.supero.tasklist.models.Task;
+import com.supero.tasklist.models.dto.TaskDTO;
 import com.supero.tasklist.services.task.CreateTaskService;
 import com.supero.tasklist.services.task.DeleteTaskService;
 import com.supero.tasklist.services.task.GetTasksServices;
@@ -48,9 +49,9 @@ public class TaskController {
   }
 
   @PostMapping
-  public ResponseEntity<?> create(@RequestBody Task task) {
+  public ResponseEntity<?> create(@RequestBody TaskDTO taskDTO) {
     try {
-      Task taskCreated = this.createTaskService.create(task);
+      Task taskCreated = this.createTaskService.create(new Task(taskDTO));
       return new ResponseEntity<Task>(taskCreated, HttpStatus.CREATED);
     } catch (Exception e) {
       return new ResponseEntity<ErrorResponse>(new ErrorResponse(e.getMessage()), HttpStatus.OK); 
@@ -59,10 +60,10 @@ public class TaskController {
   }
 
   @PutMapping(path = "{id}")
-  public ResponseEntity<?> update(@PathVariable int id, @RequestBody Task task) {
+  public ResponseEntity<?> update(@PathVariable int id, @RequestBody TaskDTO taskDTO) {
     try {
 
-      Task taskUpdated = this.updateTaskService.update(id, task);
+      Task taskUpdated = this.updateTaskService.update(id, new Task(taskDTO));
       return new ResponseEntity<Task>(taskUpdated, HttpStatus.CREATED);
     } catch (Exception e) {
       return new ResponseEntity<ErrorResponse>(new ErrorResponse(e.getMessage()), HttpStatus.OK); 

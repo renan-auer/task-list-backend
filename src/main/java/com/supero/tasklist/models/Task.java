@@ -5,9 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.supero.tasklist.models.dto.TaskDTO;
 import com.supero.tasklist.models.enums.StatusEnum;
-
-import ch.qos.logback.core.status.StatusBase;
 
 @Entity
 public class Task {
@@ -19,6 +18,14 @@ public class Task {
     private StatusEnum status;
     private String description;
     private String title;
+
+
+    public Task(TaskDTO taskDTO) {
+        this.description = taskDTO.getDescription();
+        this.status = taskDTO.getStatus();
+        this.title = taskDTO.getTitle();
+    }
+
 
     public int getId() {
         return this.id;
