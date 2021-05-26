@@ -2,6 +2,8 @@ package com.supero.tasklist.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.supero.tasklist.models.ErrorResponse;
 import com.supero.tasklist.models.Task;
 import com.supero.tasklist.models.dto.TaskDTO;
@@ -49,7 +51,7 @@ public class TaskController {
   }
 
   @PostMapping
-  public ResponseEntity<?> create(@RequestBody TaskDTO taskDTO) {
+  public ResponseEntity<?> create(@Valid @RequestBody TaskDTO taskDTO) {
     try {
       Task taskCreated = this.createTaskService.create(new Task(taskDTO));
       return new ResponseEntity<Task>(taskCreated, HttpStatus.CREATED);
@@ -60,7 +62,7 @@ public class TaskController {
   }
 
   @PutMapping(path = "{id}")
-  public ResponseEntity<?> update(@PathVariable int id, @RequestBody TaskDTO taskDTO) {
+  public ResponseEntity<?> update(@PathVariable int id, @Valid @RequestBody TaskDTO taskDTO) {
     try {
 
       Task taskUpdated = this.updateTaskService.update(id, new Task(taskDTO));

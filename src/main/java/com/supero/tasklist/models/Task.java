@@ -22,7 +22,7 @@ public class Task {
 
     public Task(TaskDTO taskDTO) {
         this.description = taskDTO.getDescription();
-        this.status = taskDTO.getStatus();
+        this.status = StatusEnum.valueOf(taskDTO.getStatus());
         this.title = taskDTO.getTitle();
     }
 

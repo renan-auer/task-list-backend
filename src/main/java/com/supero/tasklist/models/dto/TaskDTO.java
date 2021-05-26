@@ -1,18 +1,25 @@
 package com.supero.tasklist.models.dto;
 
-import com.supero.tasklist.models.enums.StatusEnum;
+import javax.validation.constraints.NotBlank;
 
 public class TaskDTO {
 
-    private StatusEnum status;
+    @NotBlank(message = "{status.not.empty}")
+    private String status;
+
+    @NotBlank(message = "{description.not.empty}")
     private String description;
+
+    @NotBlank(message = "{title.not.empty}")
     private String title;
 
-    public StatusEnum getStatus() {
+    
+
+    public String getStatus() {
         return this.status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
