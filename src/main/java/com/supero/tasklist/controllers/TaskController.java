@@ -6,6 +6,7 @@ import com.supero.tasklist.models.ErrorResponse;
 import com.supero.tasklist.models.Task;
 import com.supero.tasklist.services.task.CreateTaskService;
 import com.supero.tasklist.services.task.GetTasksServices;
+import com.supero.tasklist.services.task.UpdateTaskService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,14 +19,17 @@ import org.springframework.web.bind.annotation.*;
 public class TaskController {
 
   private final CreateTaskService createTaskService;
+  private final UpdateTaskService updateTaskService;
   private final GetTasksServices getTasksService;
 
   @Autowired
   public TaskController(
       CreateTaskService createTaskService, 
+      UpdateTaskService updateTaskService,
       GetTasksServices getTasksService
       ) {
     this.createTaskService = createTaskService;
+    this.updateTaskService = updateTaskService;
     this.getTasksService = getTasksService;
   }
 
@@ -50,5 +54,15 @@ public class TaskController {
 
   }
 
+  @PutMapping(path = "{id}")
+  public ResponseEntity<?> update(@PathVariable int id, @RequestBody Task task) {
+    try {
+
+      Task taskUpdated = this.updateTaskService.update(id, task);
+      return new ResponseEntity<Task>(taskUpdated, HttpStatus.CREATED);
+    } catch (Exception e) {
+      return new ResponseEntity<ErrorResponse>(new ErrorResponse(e.getMessage()), HttpStatus.OK); 
+    }
+  }
 
 }
