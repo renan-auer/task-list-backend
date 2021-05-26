@@ -5,6 +5,7 @@ import java.util.List;
 import com.supero.tasklist.models.ErrorResponse;
 import com.supero.tasklist.models.Task;
 import com.supero.tasklist.services.task.CreateTaskService;
+import com.supero.tasklist.services.task.DeleteTaskService;
 import com.supero.tasklist.services.task.GetTasksServices;
 import com.supero.tasklist.services.task.UpdateTaskService;
 
@@ -20,16 +21,19 @@ public class TaskController {
 
   private final CreateTaskService createTaskService;
   private final UpdateTaskService updateTaskService;
+  private final DeleteTaskService deleteTaskService;
   private final GetTasksServices getTasksService;
 
   @Autowired
   public TaskController(
       CreateTaskService createTaskService, 
       UpdateTaskService updateTaskService,
+      DeleteTaskService deleteTaskService, 
       GetTasksServices getTasksService
       ) {
     this.createTaskService = createTaskService;
     this.updateTaskService = updateTaskService;
+    this.deleteTaskService = deleteTaskService;
     this.getTasksService = getTasksService;
   }
 
@@ -60,6 +64,16 @@ public class TaskController {
 
       Task taskUpdated = this.updateTaskService.update(id, task);
       return new ResponseEntity<Task>(taskUpdated, HttpStatus.CREATED);
+    } catch (Exception e) {
+      return new ResponseEntity<ErrorResponse>(new ErrorResponse(e.getMessage()), HttpStatus.OK); 
+    }
+  }
+
+  @DeleteMapping(path = "{id}")
+  public ResponseEntity<?> delete(@PathVariable int id) {
+    try {
+      boolean isUpdated = this.deleteTaskService.delete(id);
+    return new ResponseEntity<>(isUpdated, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<ErrorResponse>(new ErrorResponse(e.getMessage()), HttpStatus.OK); 
     }
