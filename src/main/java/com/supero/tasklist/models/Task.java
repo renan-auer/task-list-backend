@@ -19,6 +19,7 @@ public class Task {
     private String description;
     private String title;
 
+    public Task() {}
 
     public Task(TaskDTO taskDTO) {
         this.description = taskDTO.getDescription();
